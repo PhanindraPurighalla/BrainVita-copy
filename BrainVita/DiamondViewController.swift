@@ -273,16 +273,72 @@ class DiamondViewController: UIViewController {
         
     }
     
-    @IBOutlet weak var resetButton: UIButton!
+    
+    @IBOutlet weak var orientation1: UIButton!
     
     
-    @IBAction func resetButtonPressed(_ sender: UIButton) {
+    @IBAction func orientation1Pressed(_ sender: UIButton) {
         
         initScene()
-        
     }
     
     /* 
+    * Function to set empty cells for orientation 1
+    */
+    
+    func setEmptyCellsOrientation1 () {
+        var rowNumber = 4
+        var columnNumber = 0
+        while rowNumber < 7 {
+            while columnNumber < 7 {
+                if !((rowNumber >= 5 && columnNumber <= 1) ||
+                    (rowNumber >= 5 && columnNumber >= 5)){
+                    if let emptyMarble = view.subviews[0].subviews[rowNumber].subviews[columnNumber] as? UIButton {
+                        emptyMarble.setTitle(marbleAbsent, for: .normal)
+                    }
+                }
+                columnNumber += 1
+            }
+            rowNumber += 1
+            columnNumber = 0
+        }
+        
+    }
+    
+    
+    @IBOutlet weak var orientation2: UIButton!
+    
+    
+    @IBAction func orientation2Pressed(_ sender: UIButton) {
+        
+        initScene()
+        setEmptyCellsOrientation2()
+    }
+    
+    /*
+     * Function to set empty cells for orientation 2
+     */
+    
+    func setEmptyCellsOrientation2 () {
+        var rowNumber = 0
+        var columnNumber = 0
+        while rowNumber < 3 {
+            while columnNumber < 7 {
+                if !((rowNumber <= 1 && columnNumber <= 1) ||
+                    (rowNumber <= 1 && columnNumber >= 5)){
+                    if let emptyMarble = view.subviews[0].subviews[rowNumber].subviews[columnNumber] as? UIButton {
+                        emptyMarble.setTitle(marbleAbsent, for: .normal)
+                    }
+                }
+                columnNumber += 1
+            }
+            rowNumber += 1
+            columnNumber = 0
+        }
+        
+    }
+    
+    /*
      * Function to reset the state of the game
      */
     func initScene() {
@@ -291,9 +347,9 @@ class DiamondViewController: UIViewController {
             marbleButton.isEnabled = true
         }
         
-        // Empty cells
-        if let centreMarble = view.subviews[0].subviews[3].subviews[3] as? UIButton {
-            centreMarble.setTitle(marbleAbsent, for: .normal)
+        
+        if let emptyMarble = view.subviews[0].subviews[3].subviews[3] as? UIButton {
+            emptyMarble.setTitle(marbleAbsent, for: .normal)
         }
         
         undoLastMove.isEnabled = false
