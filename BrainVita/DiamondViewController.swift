@@ -31,6 +31,7 @@ class DiamondViewController: UIViewController {
 
     @IBOutlet weak var undoLastMove: UIButton!
     
+    @IBOutlet weak var remainingButton: UIButton!
     
     @IBAction func undoButtonPressed(_ sender: UIButton) {
         
@@ -54,12 +55,18 @@ class DiamondViewController: UIViewController {
             prevRemovedMarble.setTitle(marblePresent, for: .normal)
         }
         
+        remainingButton.setTitle("Remaining: \(marblesRemaining())", for: .normal)
+        
     }
     
     @IBOutlet var marbleButtons: [UIButton]!
     
     
     @IBAction func buttonPressed(_ sender: UIButton) {
+        
+        if movesButton.title(for: .normal) == "Game over!! 😢" {
+            return
+        }
         
         if sender.title(for: .normal) == marblePresent {
             sender.setTitle(marbleSelected, for: .normal)
@@ -172,8 +179,131 @@ class DiamondViewController: UIViewController {
         
         numMoves += 1
         
-        movesButton.setTitle("Moves: \(numMoves)", for: .normal)
+        remainingButton.setTitle("Remaining: \(marblesRemaining())", for: .normal)
         
+        
+        if marblesRemaining() == 1 {
+            movesButton.setTitle("You win!! 👏", for: .normal)
+        }
+        else {
+            movesButton.setTitle("Moves: \(numMoves)", for: .normal)
+            
+        }
+        
+        if checkAnyMoreMoves() == false && marblesRemaining() != 1 {
+            movesButton.setTitle("Game over!! 😢", for: .normal)
+        }
+        
+    }
+    
+    func marblesRemaining () -> Int {
+        
+        var numMarbles : Int = 0
+        
+        for marbleButton in marbleButtons {
+            if marbleButton.title(for: .normal) == marblePresent {
+                numMarbles += 1
+            }
+        }
+        
+        return numMarbles
+    }
+    
+    func checkAnyMoreMoves () -> Bool {
+        
+        for marbleButton in marbleButtons {
+            if marbleButton.title(for: .normal) == marblePresent {
+                
+                var rowIndexOfCurrentMarble : Int = 0
+                var columnIndexOfCurrentMarble : Int = 0
+                
+                for case let stackView as UIStackView in (marbleButton.superview?.superview?.subviews)! {
+                    if stackView == marbleButton.superview {
+                        break
+                    }
+                    rowIndexOfCurrentMarble += 1
+                }
+                
+                
+                for case let button as UIButton in (marbleButton.superview?.subviews)! {
+                    if button == marbleButton {
+                        break
+                    }
+                    columnIndexOfCurrentMarble += 1
+                }
+                
+                // Check top marble
+                if rowIndexOfCurrentMarble > 1 {
+                    if let topMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble-1].subviews[columnIndexOfCurrentMarble] as? UIButton {
+                        if topMarble.title(for: .normal) == marblePresent {
+                            
+                            if let topTargetMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble-2].subviews[columnIndexOfCurrentMarble] as? UIButton {
+                                
+                                if topTargetMarble.title(for: .normal) == marbleAbsent {
+                                    return true
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                }
+                
+                // Check bottom marble
+                if rowIndexOfCurrentMarble < 5 {
+                    if let bottomMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble+1].subviews[columnIndexOfCurrentMarble] as? UIButton {
+                        if bottomMarble.title(for: .normal) == marblePresent {
+                            
+                            if let bottomTargetMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble+2].subviews[columnIndexOfCurrentMarble] as? UIButton {
+                                
+                                if bottomTargetMarble.title(for: .normal) == marbleAbsent {
+                                    return true
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                }
+                
+                // Check left marble
+                if columnIndexOfCurrentMarble > 1 {
+                    if let leftMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble].subviews[columnIndexOfCurrentMarble-1] as? UIButton {
+                        if leftMarble.title(for: .normal) == marblePresent {
+                            
+                            if let leftTargetMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble].subviews[columnIndexOfCurrentMarble-2] as? UIButton {
+                                
+                                if leftTargetMarble.title(for: .normal) == marbleAbsent {
+                                    return true
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                }
+                
+                // Check right marble
+                if columnIndexOfCurrentMarble < 5 {
+                    if let rightMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble].subviews[columnIndexOfCurrentMarble+1] as? UIButton {
+                        if rightMarble.title(for: .normal) == marblePresent {
+                            
+                            if let rightTargetMarble = view.subviews[0].subviews[rowIndexOfCurrentMarble].subviews[columnIndexOfCurrentMarble+2] as? UIButton {
+                                
+                                if rightTargetMarble.title(for: .normal) == marbleAbsent {
+                                    return true
+                                }
+                            }
+                            
+                            
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+        return false
     }
     
     
@@ -365,7 +495,9 @@ class DiamondViewController: UIViewController {
         
         numMoves = 0
         
-        movesButton.setTitle("Moves: \(numMoves)", for: .normal)
+        movesButton.setTitle("Moves: ", for: .normal)
+        
+        remainingButton.setTitle("Remaining: ", for: .normal)
     }
     
     override func viewDidLoad() {
