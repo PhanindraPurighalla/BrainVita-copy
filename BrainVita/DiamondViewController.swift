@@ -35,6 +35,10 @@ class DiamondViewController: UIViewController {
     
     @IBAction func undoButtonPressed(_ sender: UIButton) {
         
+        if movesButton.title(for: .normal) == "Game over!! 😢" || movesButton.title(for: .normal) == "You win!! 👏" {
+            return
+        }
+        
         if !(rowIndexOfRemovedMarble == 0 && columnIndexOfRemovedMarble == 0) {
             undo()
         }
@@ -64,7 +68,7 @@ class DiamondViewController: UIViewController {
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         
-        if movesButton.title(for: .normal) == "Game over!! 😢" {
+        if movesButton.title(for: .normal) == "Game over!! 😢" || movesButton.title(for: .normal) == "You win!! 👏" {
             return
         }
         
@@ -410,6 +414,10 @@ class DiamondViewController: UIViewController {
     @IBAction func orientation1Pressed(_ sender: UIButton) {
         
         initScene()
+        
+        movesButton.setTitle("Moves: \(numMoves)", for: .normal)
+        
+        remainingButton.setTitle("Remaining: \(marblesRemaining())", for: .normal)
     }
     
     /* 
@@ -443,6 +451,10 @@ class DiamondViewController: UIViewController {
         
         initScene()
         setEmptyCellsOrientation2()
+        
+        movesButton.setTitle("Moves: \(numMoves)", for: .normal)
+        
+        remainingButton.setTitle("Remaining: \(marblesRemaining())", for: .normal)
     }
     
     /*
@@ -477,8 +489,8 @@ class DiamondViewController: UIViewController {
             marbleButton.isEnabled = true
         }
         
-        
         if let emptyMarble = view.subviews[0].subviews[3].subviews[3] as? UIButton {
+            
             emptyMarble.setTitle(marbleAbsent, for: .normal)
         }
         
@@ -495,9 +507,10 @@ class DiamondViewController: UIViewController {
         
         numMoves = 0
         
-        movesButton.setTitle("Moves: ", for: .normal)
+        movesButton.setTitle("Moves: \(numMoves)", for: .normal)
         
-        remainingButton.setTitle("Remaining: ", for: .normal)
+        remainingButton.setTitle("Remaining: \(marblesRemaining())", for: .normal)
+        
     }
     
     override func viewDidLoad() {
