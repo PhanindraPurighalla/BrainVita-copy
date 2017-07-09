@@ -565,7 +565,7 @@ means cell is a possible target</string>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZk-hY-WPQ">
                                                 <rect key="frame" x="0.0" y="0.0" width="144" height="50"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <state key="normal" title="⏪Undo last move"/>
                                                 <connections>
                                                     <action selector="undoButtonPressed:" destination="OFz-f3-mWM" eventType="touchUpInside" id="UH3-UA-J6L"/>
@@ -573,7 +573,7 @@ means cell is a possible target</string>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aC5-ht-WiZ">
                                                 <rect key="frame" x="144" y="0.0" width="144" height="50"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             </button>
                                         </subviews>
                                     </stackView>
